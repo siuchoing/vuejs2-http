@@ -58,8 +58,13 @@
                     .then(response => {
                         return response.json();
                     })
+                    // Passing extracted data into users array
                     .then(data => {
-                        console.log(data);
+                        const resultArray = [];
+                        for (let key in data) {
+                            resultArray.push(data[key]);
+                        }
+                        this.users = resultArray;
                     });
             }
         }

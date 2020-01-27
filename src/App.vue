@@ -42,7 +42,7 @@
          */
         methods: {
             submit() {
-                this.$http.post('https://vuejs2-http-7e7ef.firebaseio.com/data.json', this.user)
+                this.$http.post('', this.user)
                     .then(response => {
                        console.log(response);
                     }, error => {
@@ -54,7 +54,7 @@
 
             // Get a javascript object with extracted data
             fetchData() {
-                this.$http.get('https://vuejs2-http-7e7ef.firebaseio.com/data.json', this.user)
+                this.$http.get('', this.user)
                     .then(response => {
                         return response.json();
                     })

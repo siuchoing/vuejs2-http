@@ -21,7 +21,11 @@ Vue.http.interceptors.push((request, next) => {
   if (request.method == 'POST') {
     request.method = 'PUT';   // where PUT method without id in Firebase server, and new input data will cover the old one
   }
-  next();
+  // override the response.json method on all your request globally
+  next(response => {
+    // extract the response body, and assign 'messages' as ID for looping PUT response body
+    response.json = () => { return { messages: response.body } }
+  });
 })
 
 new Vue({

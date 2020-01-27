@@ -31,7 +31,8 @@
                     username: '',
                     email: ''
                 },
-                users: []
+                users: [],
+                resource: {}
             };
         },
         /*****************
@@ -42,19 +43,25 @@
          */
         methods: {
             submit() {
-                this.$http.post('', this.user)
-                    .then(response => {
-                       console.log(response);
-                    }, error => {
-                        console.log(error);
-                    });
+                /**********************************************
+                 * Sending a post request to sever
+                 **********/
+                // this.$http.post('data.json', this.user)
+                //     .then(response => {
+                //        console.log(response);
+                //     }, error => {
+                //         console.log(error);
+                //     });
 
-                //console.log(this.user);
+                /**********************************************
+                 * Sending a post request and save it to DB sever
+                 **********/
+                this.resource.save({}, this.user);
             },
 
             // Get a javascript object with extracted data
             fetchData() {
-                this.$http.get('', this.user)
+                this.$http.get('data.json', this.user)
                     .then(response => {
                         return response.json();
                     })
@@ -67,6 +74,9 @@
                         this.users = resultArray;
                     });
             }
+        },
+        created() {
+            this.resource = this.$resource('data.json');
         }
     }
 </script>

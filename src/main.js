@@ -12,7 +12,7 @@ Vue.use(VueResource);
  *
  * To configure the root route or the route URL of all our requests globally
  */
-Vue.http.options.root = 'https://vuejs2-http-7e7ef.firebaseio.com/data.json';
+Vue.http.options.root = 'https://vuejs2-http-7e7ef.firebaseio.com/';
 // Vue.http.options.root = 'http://127.0.0.1:8080/api/v1';
 
 // Change request method globally by adding interceptor on each request

@@ -15,6 +15,15 @@ Vue.use(VueResource);
 Vue.http.options.root = 'https://vuejs2-http-7e7ef.firebaseio.com/data.json';
 // Vue.http.options.root = 'http://127.0.0.1:8080/api/v1';
 
+// Change request method globally by adding interceptor on each request
+Vue.http.interceptors.push((request, next) => {
+  console.log(request);
+  if (request.method == 'POST') {
+    request.method = 'PUT';   // where PUT method without id in Firebase server, and new input data will cover the old one
+  }
+  next();
+})
+
 new Vue({
   el: '#app',
   render: h => h(App)

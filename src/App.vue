@@ -11,7 +11,13 @@
                     <label>Mail</label>
                     <input type="text" class="form-control" v-model="user.email">
                 </div>
-               <button class="btn btn-primary" @click="submit">Submit</button>
+                <button class="btn btn-primary" @click="submit">Submit</button>
+                <hr>
+                <button class="btn btn-primary" @click="fetchData">Get Data</button>
+                <br><br>
+                <ul class="list-group">
+                    <li class="list-group-item" v-for="u in users">{{ u.username }} - {{ u.email }}</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -24,13 +30,15 @@
                 user: {
                     username: '',
                     email: ''
-                }
+                },
+                users: []
             };
         },
         /*****************
          * $http            // Every vue instance we create has access to $http via vue resource
          * .then()          // Once this request has been sent and once we did get a response back.
          * response => {}   // get back function to get object
+         * .json()          // extract and converts your response into a javascript object
          */
         methods: {
             submit() {
@@ -41,8 +49,18 @@
                         console.log(error);
                     });
 
-
                 //console.log(this.user);
+            },
+
+            // Get a javascript object with extracted data
+            fetchData() {
+                this.$http.get('https://vuejs2-http-7e7ef.firebaseio.com/data.json', this.user)
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data);
+                    });
             }
         }
     }

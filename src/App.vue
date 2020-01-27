@@ -27,9 +27,22 @@
                 }
             };
         },
+        /*****************
+         * $http            // Every vue instance we create has access to $http via vue resource
+         * .then()          // Once this request has been sent and once we did get a response back.
+         * response => {}   // get back function to get object
+         */
         methods: {
             submit() {
-                console.log(this.user);
+                this.$http.post('https://vuejs2-http-7e7ef.firebaseio.com/data.json', this.user)
+                    .then(response => {
+                       console.log(response);
+                    }, error => {
+                        console.log(error);
+                    });
+
+
+                //console.log(this.user);
             }
         }
     }

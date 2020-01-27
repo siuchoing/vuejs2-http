@@ -55,8 +55,14 @@
 
                 /**********************************************
                  * Sending a post request and save it to DB sever
+                 * Reference Doc: https://github.com/pagekit/vue-resource/blob/develop/docs/resource.md
                  **********/
-                this.resource.save({}, this.user);
+                // this.resource.save({}, this.user);
+
+                /**********************************************
+                 * Sending a post request and save it to DB sever to create multiple custom resource
+                 **********/
+                this.resource.saveAlt(this.user);
             },
 
             // Get a javascript object with extracted data
@@ -76,7 +82,10 @@
             }
         },
         created() {
-            this.resource = this.$resource('data.json');
+            const customActions = {
+                saveAlt: {method: 'POST', url: 'alternative.json'}
+            };
+            this.resource = this.$resource('data.json', {}, customActions);
         }
     }
 </script>

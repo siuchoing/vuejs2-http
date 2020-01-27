@@ -13,6 +13,8 @@
                 </div>
                 <button class="btn btn-primary" @click="submit">Submit</button>
                 <hr>
+                <input class="form-control" type="text" v-model="node" placeholder="Type 'data' or 'alternative'">
+                <br>Sub-data field in DB server: {{ node }}<br>
                 <button class="btn btn-primary" @click="fetchData">Get Data</button>
                 <br><br>
                 <ul class="list-group">
@@ -32,7 +34,8 @@
                     email: ''
                 },
                 users: [],
-                resource: {}
+                resource: {},
+                node: 'data'
             };
         },
         /*****************
@@ -65,27 +68,50 @@
                 this.resource.saveAlt(this.user);
             },
 
-            // Get a javascript object with extracted data
+
             fetchData() {
-                this.$http.get('data.json', this.user)
+                /*******************
+                 * Get a javascript object with extracted data
+                 */
+                // this.$http.get('data.json', this.user)
+                //     .then(response => {
+                //         return response.json();
+                //     })
+                //     // Passing extracted data into users array
+                //     .then(data => {
+                //         const resultArray = [];
+                //         for (let key in data) {
+                //             resultArray.push(data[key]);
+                //         }
+                //         this.users = resultArray;
+                //     });
+
+                /*******************
+                 * Get a javascript object with extracted data for custom data field (node)
+                 */
+                this.resource.getData({node: this.node})
                     .then(response => {
-                        return response.json();
-                    })
-                    // Passing extracted data into users array
-                    .then(data => {
-                        const resultArray = [];
-                        for (let key in data) {
-                            resultArray.push(data[key]);
-                        }
-                        this.users = resultArray;
-                    });
+                            return response.json();
+                        })
+                        // Passing extracted data into users array
+                        .then(data => {
+                            const resultArray = [];
+                            for (let key in data) {
+                                resultArray.push(data[key]);
+                            }
+                            this.users = resultArray;
+                        });
             }
         },
+        /************************
+         * URI Template Syntax: https://medialize.github.io/URI.js/uri-template.html
+         */
         created() {
             const customActions = {
-                saveAlt: {method: 'POST', url: 'alternative.json'}
+                saveAlt: {method: 'POST', url: 'alternative.json'},
+                getData: {method: 'GET'}
             };
-            this.resource = this.$resource('data.json', {}, customActions);
+            this.resource = this.$resource('{node}.json', {}, customActions);
         }
     }
 </script>
